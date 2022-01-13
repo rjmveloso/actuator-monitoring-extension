@@ -1,0 +1,58 @@
+### ANY CHANGES TO THIS FILE DOES NOT REQUIRE A RESTART ###
+
+# This will create this metric in all the tiers, under this path.
+metricPrefix: "Custom Metrics|Micrometer"
+
+# This will create it in specific Tier aka Component. Replace <COMPONENT_ID>.
+#metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|Micrometer"
+
+servers:
+  - displayName: "mock-server"
+    uri: "http://localhost:8080/actuator/metrics"
+    username: ""
+    password: ""
+    encryptedPassword: ""
+
+# To get the metrics through actuator api
+metric_config:
+  - name: "JVM Memory Used"
+    endpoint: "/jvm.memory.used"
+    statistics:
+      - name: "VALUE"
+        metric_type: ["AVERAGE", "AVERAGE", "INDIVIDUAL"]
+  - name: "HTTP Server Requests"
+    endpoint: "/http.server.requests"
+    statistics:
+      - name: "COUNT"
+        metric_type: ["AVERAGE", "AVERAGE", "INDIVIDUAL"]
+      - name: "TOTAL_TIME"
+        metric_type: ["AVERAGE", "AVERAGE", "INDIVIDUAL"]
+      - name: "MAX"
+        #alias: "MAX_TIME"
+        metric_type: ["AVERAGE", "AVERAGE", "INDIVIDUAL"]
+
+metricPathReplacements:
+  - replace: "_"
+    replaceWith: " "
+
+controllerInfo:
+  controllerHost: ""
+  controllerPort: 8090
+  account: ""
+  username: ""
+  password: ""
+  encryptedPassword: ""
+  controllerSslEnabled: false
+  enableOrchestration: false
+  uniqueHostId: ""
+  accountAccessKey: ""
+  machinePath: ""
+  simEnabled: true
+  applicationName: ""
+  tierName: ""
+  nodeName: ""
+
+encryptionKey: ""
+
+# number of concurrent tasks
+numberOfThreads: 4

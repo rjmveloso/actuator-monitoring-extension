@@ -1,0 +1,68 @@
+package io.github.appdynamics.extensions.micrometer;
+
+import com.appdynamics.extensions.MetricWriteHelper;
+import com.appdynamics.extensions.metrics.Metric;
+import com.appdynamics.extensions.util.MetricPathUtils;
+import io.github.appdynamics.extensions.micrometer.http.HttpClientHelper;
+import io.github.appdynamics.extensions.micrometer.utils.MockUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+
+import java.io.IOException;
+import java.util.*;
+
+import static io.github.appdynamics.extensions.micrometer.utils.Constants.*;
+import static org.mockito.Mockito.*;
+
+/**
+ * @author ricardo.veloso
+ */
+public class MicrometerMonitorTaskTest {
+
+    @Test
+    void micrometerMonitorTaskTest() throws IOException {
+        String url = (String) MockUtils.getServer().get("uri");
+
+        HttpClientHelper client = mock(HttpClientHelper.class);
+        when(client.read(url + "/jvm.memory.used")).thenReturn(MockUtils.getResourceAsJson("/data/jvm-memory-used.json"));
+        when(client.read(url + "/http.server.requests")).thenReturn(MockUtils.getResourceAsJson("/data/http-server-requests.json"));
+
+        List<Map<String, ?>> endpoints = MockUtils.getMeasurements();
+
+        FakeMetricWriterHelper writer = new FakeMetricWriterHelper();
+
+        MicrometerMonitorTask victim = new MicrometerMonitorTask(DEFAULT_METRIC_PREFIX, MockUtils.getServer(), endpoints, client, writer);
+
+        try (MockedStatic<MetricPathUtils> utils = mockStatic(MetricPathUtils.class)) {
+            utils.when(() -> MetricPathUtils.buildMetricPath(anyString(), any())).thenCallRealMethod();
+            utils.when(() -> MetricPathUtils.getReplacedString(anyString())).thenAnswer(
+                    answer -> answer.getArgument(0)
+            );
+            victim.run();
+        }
+
+        assertExpectedMetrics(writer.metrics,
+                "[AVERAGE/AVERAGE/INDIVIDUAL] [" + DEFAULT_METRIC_PREFIX + "|JVM Memory Used|VALUE]=[1.91]]",
+                "[AVERAGE/AVERAGE/INDIVIDUAL] [" + DEFAULT_METRIC_PREFIX + "|HTTP Server Requests|COUNT]=[40.0]]",
+                "[AVERAGE/AVERAGE/INDIVIDUAL] [" + DEFAULT_METRIC_PREFIX + "|HTTP Server Requests|TOTAL_TIME]=[5292.4442]]",
+                "[AVERAGE/AVERAGE/INDIVIDUAL] [" + DEFAULT_METRIC_PREFIX + "|HTTP Server Requests|MAX]=[0.0]]",
+                "[AVERAGE/AVERAGE/INDIVIDUAL] [" + DEFAULT_METRIC_PREFIX + "|" + url + "]=[1]]"
+        );
+    }
+
+    private void assertExpectedMetrics(List<Metric> actual, String... expected) {
+        for (int i = 0; i < actual.size(); i++) {
+            Assertions.assertEquals(expected[i], actual.get(i).toString());
+        }
+    }
+
+    private static class FakeMetricWriterHelper extends MetricWriteHelper {
+        List<Metric> metrics;
+
+        @Override
+        public void transformAndPrintMetrics(List<Metric> metrics) {
+            this.metrics = metrics;
+        }
+    }
+}

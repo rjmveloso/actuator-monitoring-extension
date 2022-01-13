@@ -1,0 +1,19 @@
+{
+  "name": "http.server.requests",
+  "description": null,
+  "baseUnit": "milliseconds",
+  "measurements": [
+    {
+      "statistic": "COUNT",
+      "value": 40.0
+    },
+    {
+      "statistic": "TOTAL_TIME",
+      "value": 5292.4442
+    },
+    {
+      "statistic": "MAX",
+      "value": 0.0
+    }
+  ]
+}
