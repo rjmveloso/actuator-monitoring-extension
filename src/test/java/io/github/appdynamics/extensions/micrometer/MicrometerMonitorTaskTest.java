@@ -42,8 +42,8 @@ public class MicrometerMonitorTaskTest {
         String url = (String) getServer().get("uri");
 
         HttpClientHelper client = mock(HttpClientHelper.class);
-        when(client.read(getServer().get("uri") + "/jvm.memory.used")).thenReturn(getResourceAsJson("/data/jvm-memory-used.json"));
-        when(client.read(getServer().get("uri") + "/http.server.requests")).thenReturn(getResourceAsJson("/data/http-server-requests.json"));
+        when(client.read(url + "/jvm.memory.used")).thenReturn(getResourceAsJson("/data/jvm-memory-used.json"));
+        when(client.read(url + "/http.server.requests")).thenReturn(getResourceAsJson("/data/http-server-requests.json"));
 
         MetricWriteHelper writer = mock(MetricWriteHelper.class);
 
