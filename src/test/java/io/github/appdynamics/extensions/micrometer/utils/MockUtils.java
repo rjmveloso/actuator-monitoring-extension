@@ -27,7 +27,7 @@ public class MockUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Map<String, ?>> getMeasurements() {
+    public static List<Map<String, ?>> getMetricConfigs() {
         return (List<Map<String, ?>>) CONFIG.get(Constants.METRIC_CONFIG);
     }
 
