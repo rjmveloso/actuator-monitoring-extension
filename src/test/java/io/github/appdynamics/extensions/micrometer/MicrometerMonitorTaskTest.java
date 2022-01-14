@@ -9,6 +9,7 @@ import com.appdynamics.extensions.metrics.MetricCharSequenceReplacer;
 import com.appdynamics.extensions.util.MetricPathUtils;
 import io.github.appdynamics.extensions.micrometer.http.HttpClientHelper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.suite.api.Suite;
@@ -34,11 +35,14 @@ public class MicrometerMonitorTaskTest {
     @Captor
     private ArgumentCaptor<List<Metric>> captor;
 
-    @Test
-    void micrometerMonitorTaskTest() throws IOException {
+    @BeforeAll
+    static void init() {
         ABaseMonitor monitor = mockBaseMonitor();
         MetricPathUtils.registerMetricCharSequenceReplacer(monitor);
+    }
 
+    @Test
+    void micrometerMonitorTaskTest() throws IOException {
         String url = (String) getServer().get("uri");
 
         HttpClientHelper client = mock(HttpClientHelper.class);
@@ -61,7 +65,7 @@ public class MicrometerMonitorTaskTest {
         );
     }
 
-    private ABaseMonitor mockBaseMonitor() {
+    private static ABaseMonitor mockBaseMonitor() {
         MetricCharSequenceReplacer replacer = new MetricCharSequenceReplacer(Collections.emptyMap());
 
         MonitorContext context = mock(MonitorContext.class);
