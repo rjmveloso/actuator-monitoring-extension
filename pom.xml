@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.appdynamics.extensions</groupId>
-    <artifactId>micrometer-monitoring-extension</artifactId>
+    <artifactId>actuator-monitoring-extension</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>MicrometerMonitor</name>
+    <name>ActuatorMonitor</name>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,13 +20,15 @@
             <groupId>com.appdynamics</groupId>
             <artifactId>machine-agent</artifactId>
             <version>3.7.11</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/machine-agent-3.7.11.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.appdynamics</groupId>
             <artifactId>appd-exts-commons</artifactId>
             <version>2.1.0</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/appd-exts-commons-2.2.4-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>

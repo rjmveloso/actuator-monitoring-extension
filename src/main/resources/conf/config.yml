@@ -1,10 +1,10 @@
 ### ANY CHANGES TO THIS FILE DOES NOT REQUIRE A RESTART ###
 
 # This will create this metric in all the tiers, under this path.
-metricPrefix: "Custom Metrics|Micrometer"
+metricPrefix: "Custom Metrics|Spring Boot Actuator"
 
 # This will create it in specific Tier aka Component. Replace <COMPONENT_ID>.
-#metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|Micrometer"
+#metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|Spring Boot Actuator"
 
 servers:
   - displayName: "mock-server"
