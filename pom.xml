@@ -20,15 +20,13 @@
             <groupId>com.appdynamics</groupId>
             <artifactId>machine-agent</artifactId>
             <version>3.7.11</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/machine-agent-3.7.11.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.appdynamics</groupId>
             <artifactId>appd-exts-commons</artifactId>
             <version>2.1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/appd-exts-commons-2.2.4-SNAPSHOT.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -58,7 +56,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <finalName>${project.name}-${project.version}</finalName>
+                    <finalName>${project.name}</finalName>
                     <descriptors>
                         <descriptor>src/assembly/bin.xml</descriptor>
                     </descriptors>

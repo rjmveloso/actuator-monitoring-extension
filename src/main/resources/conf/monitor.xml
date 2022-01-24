@@ -9,16 +9,16 @@
     <monitor-run-task>
         <execution-style>periodic</execution-style>
         <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
-        <name>Micrometer Monitor Run Task</name>
-        <display-name>Micrometer Monitor Task</display-name>
-        <description>Micrometer Monitor Task</description>
+        <name>Actuator Monitor Run Task</name>
+        <display-name>Actuator Monitor Task</display-name>
+        <description>Actuator Monitor Task</description>
         <type>java</type>
         <execution-timeout-in-secs>60</execution-timeout-in-secs>
         <task-arguments>
             <argument name="config-file" is-required="true" default-value="monitors/MicrometerMonitor/config.yml"/>
         </task-arguments>
         <java-task>
-            <classpath>micrometer-monitoring-extension.jar</classpath>
+            <classpath>actuator-monitoring-extension.jar</classpath>
             <impl-class>io.github.appdynamics.extensions.micrometer.MicrometerMonitor</impl-class>
         </java-task>
     </monitor-run-task>

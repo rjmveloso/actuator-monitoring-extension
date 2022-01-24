@@ -36,7 +36,14 @@ metricPrefix:  "Server|Component:<TIER_ID>|Custom Metrics|Spring Boot Actuator|"
 ```
 
 ### config.yml
-1. Configure the server including the metric path `http://localhost:8080/app/actuator/metrics`
+1. Configure the server including the metric path
+   ```yaml
+   servers:
+     - displayName: "Server Name"
+       uri: "http://localhost:8080/actuator/metrics"
+   ```
+   * **displayName**: this will be the name of your server that you would like to see on the metric browser
+   * **uri**: URI to the exposed metric path
 2. Configure the metric statistics settings to collect data
    ```yaml
    metric_config:
@@ -53,9 +60,13 @@ metricPrefix:  "Server|Component:<TIER_ID>|Custom Metrics|Spring Boot Actuator|"
    * **stat name**: the statistic name to collect  
    * **stat metric_type**: array to identify [aggregationType, timeRollUpType, clusterRollUpType]  
 Please refer to Metric Processing Qualifiers [here](https://docs.appdynamics.com/22.1/en/infrastructure-visibility/machine-agent/extensions-and-custom-metrics/build-a-monitoring-extension-using-scripts#BuildaMonitoringExtensionUsingScripts-DefineYourMetrics).
-
-### metricPathReplacements
-Please visit [this](https://community.appdynamics.com/t5/Knowledge-Base/Metric-Path-CharSequence-Replacements-in-Extensions/ta-p/35412) page to get detailed instructions on configuring Metric Path Character sequence replacements in Extensions.
+3. Configure metric path replacements if desirable
+   ```yaml
+   metricPathReplacements:
+     - replace: "_"
+       replaceWith: " "
+   ```
+   Please visit [this](https://community.appdynamics.com/t5/Knowledge-Base/Metric-Path-CharSequence-Replacements-in-Extensions/ta-p/35412) page to get detailed instructions on configuring Metric Path Character sequence replacements in Extensions.
 
 ## Credentials Encryption
 Please visit [this](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397) page to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
