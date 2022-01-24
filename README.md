@@ -38,14 +38,20 @@ metricPrefix:  "Server|Component:<TIER_ID>|Custom Metrics|Spring Boot Actuator|"
 ### config.yml
 1. Configure the server including the metric path `http://localhost:8080/app/actuator/metrics`
 2. Configure the metric statistics settings to collect data
-   ```json
+   ```yaml
    metric_config:
-     - name: metric name that will be displayed in the metric browser
-       endpoint: path to the metric (to be appended to the server uri)
+     - name: "HTTP Server Requests"
+       endpoint: "/http.server.requests"
        statistics:
-          - name: the statistic name to collect
-            metric_type: array to identify [aggregationType, timeRollUpType, clusterRollUpType]
+         - name: "COUNT"
+           metric_type: ["AVERAGE", "AVERAGE", "INDIVIDUAL"]
+         - name: "TOTAL_TIME"
+           metric_type: ["AVERAGE", "AVERAGE", "INDIVIDUAL"]
    ```
+   * **name**: metric name that will be displayed in the metric browser
+   * **endpoint**: path to the metric (to be appended to the server uri)
+   * **stat name**: the statistic name to collect  
+   * **stat metric_type**: array to identify [aggregationType, timeRollUpType, clusterRollUpType]  
 Please refer to Metric Processing Qualifiers [here](https://docs.appdynamics.com/22.1/en/infrastructure-visibility/machine-agent/extensions-and-custom-metrics/build-a-monitoring-extension-using-scripts#BuildaMonitoringExtensionUsingScripts-DefineYourMetrics).
 
 ### metricPathReplacements
