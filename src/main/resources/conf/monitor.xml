@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <monitor>
-    <name>MicrometerMonitor</name>
+    <name>ActuatorMonitor</name>
     <type>managed</type>
     <enabled>true</enabled>
-    <description>Monitors Elasticsearch</description>
+    <description>Actuator Monitor</description>
     <monitor-configuration></monitor-configuration>
     <monitor-run-task>
         <execution-style>periodic</execution-style>
@@ -15,7 +15,7 @@
         <type>java</type>
         <execution-timeout-in-secs>60</execution-timeout-in-secs>
         <task-arguments>
-            <argument name="config-file" is-required="true" default-value="monitors/MicrometerMonitor/config.yml"/>
+            <argument name="config-file" is-required="true" default-value="monitors/ActuatorMonitor/config.yml"/>
         </task-arguments>
         <java-task>
             <classpath>actuator-monitoring-extension.jar</classpath>
