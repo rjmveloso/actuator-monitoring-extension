@@ -1,0 +1,18 @@
+[
+  {
+    "httpRequest": {
+      "path": "/actuator/metrics/jvm.memory.used"
+    },
+    "httpResponse": {
+      "body": ""
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/actuator/metrics/http.server.requests"
+    },
+    "httpResponse": {
+      "body": "{\n   \"name\":\"http.server.requests\",\n   \"description\":null,\n   \"baseUnit\":\"milliseconds\",\n   \"measurements\":[  \n      {  \n         \"statistic\":\"COUNT\",\n         \"value\":13\n      },\n      {  \n         \"statistic\":\"TOTAL_TIME\",\n         \"value\":57.430899\n      },\n      {  \n         \"statistic\":\"MAX\",\n         \"value\":0\n      }\n   ]\n}"
+    }
+  }
+]
