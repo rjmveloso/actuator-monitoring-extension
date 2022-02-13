@@ -8,14 +8,24 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class MicrometerMonitorIT {
+
+    private CountDownLatch latch = new CountDownLatch(1);
 
     private final MicrometerMonitor monitor = new MicrometerMonitor() {
         @Override
         protected void doRun(TasksExecutionServiceProvider tasksExecutionServiceProvider) {
             tasksExecutionServiceProvider.getMetricWriteHelper().setCacheMetrics(true);
             super.doRun(tasksExecutionServiceProvider);
+        }
+
+        @Override
+        protected void onComplete() {
+            super.onComplete();
+            latch.countDown();
         }
     };
 
@@ -26,9 +36,9 @@ public class MicrometerMonitorIT {
 
         monitor.execute(config, null);
 
-        // TODO wait for the executor ??
-        Thread.sleep(5000);
+        latch.await(5, TimeUnit.SECONDS);
 
+        // com.appdynamics.extensions.MetricWriteHelper also provides the number of metric uploaded
         Map<String, Metric> metrics = monitor.getContextConfiguration().getContext().getCachedMetrics();
         Assertions.assertEquals(5, metrics.size());
     }

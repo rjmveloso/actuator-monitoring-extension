@@ -88,8 +88,13 @@ public class MicrometerMonitorTask implements AMonitorTaskRunnable {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public List<Metric> call() throws Exception {
             JsonNode response = client.read(url);
+
+            if (response == null || response.isEmpty()) {
+                return Collections.emptyList();
+            }
 
             List<Metric> metrics = new ArrayList<>(stats.size());
 
@@ -97,7 +102,7 @@ public class MicrometerMonitorTask implements AMonitorTaskRunnable {
 
             for (Map<String, ?> stat : stats) {
                 String statName = (String) stat.get(Constants.STATISTIC_NAME);
-                List<String> type = getMetricType(stat);
+                List<String> type = (List<String>) stat.get(Constants.METRIC_TYPE);
 
                 String value = retrieve(measurements, statName);
                 metrics.add(new Metric(name, value, prefix + "|" + name + "|" + statName, type.get(0), type.get(1), type.get(2)));
@@ -113,11 +118,6 @@ public class MicrometerMonitorTask implements AMonitorTaskRunnable {
                 }
             }
             return "0";
-        }
-
-        @SuppressWarnings("unchecked")
-        private List<String> getMetricType(Map<String, ?> stat) {
-            return (List<String>) stat.get(Constants.METRIC_TYPE);
         }
     }
 
