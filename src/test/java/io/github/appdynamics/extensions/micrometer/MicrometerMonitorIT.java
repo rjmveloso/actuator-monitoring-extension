@@ -4,16 +4,27 @@ import com.appdynamics.extensions.TasksExecutionServiceProvider;
 import com.appdynamics.extensions.metrics.Metric;
 import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.file.FileReader;
+import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.junit.jupiter.MockServerSettings;
+import org.mockserver.logging.MockServerLogger;
+import org.mockserver.mock.Expectation;
+import org.mockserver.serialization.ExpectationSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@ExtendWith(MockServerExtension.class)
+@MockServerSettings(ports = 1080)
 public class MicrometerMonitorIT {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
 
     private final MicrometerMonitor monitor = new MicrometerMonitor() {
         @Override
@@ -28,6 +39,13 @@ public class MicrometerMonitorIT {
             latch.countDown();
         }
     };
+
+    @BeforeEach
+    public void beforeEachLifecyleMethod(MockServerClient client) {
+        String json = FileReader.readFileFromClassPathOrPath("mock/expectations.json");
+        Expectation[] expectations = new ExpectationSerializer(new MockServerLogger()).deserializeArray(json, false);
+        client.upsert(expectations);
+    }
 
     @Test
     public void test() throws TaskExecutionException, InterruptedException {
