@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.appdynamics</groupId>
             <artifactId>appd-exts-commons</artifactId>
-            <version>2.1.0</version>
+            <version>2.2.4</version>
             <scope>provided</scope>
         </dependency>
 
@@ -52,6 +52,11 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>4.2.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-junit-jupiter-no-dependencies</artifactId>
+            <version>5.14.0</version>
         </dependency>
     </dependencies>
 
@@ -102,33 +107,6 @@
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.mock-server</groupId>
-                <artifactId>mockserver-maven-plugin</artifactId>
-                <version>5.11.2</version>
-                <configuration>
-                    <serverPort>1080</serverPort>
-                    <logLevel>DEBUG</logLevel>
-                    <initializationJson>mock\expectations.json</initializationJson>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>start</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
                         </goals>
                     </execution>
                 </executions>
